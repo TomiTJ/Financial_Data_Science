@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Prediction</title>
+</head>
+<body>
+    <h1>Loan Prediction Form</h1>
+    <form action="/predict" method="post">
+        <label for="amount">Loan Amount:</label>
+        <input type="number" id="amount" name="Amount" required><br><br>
+
+        <label for="term">Loan Term (Months):</label>
+        <input type="number" id="term" name="Term" required><br><br>
+
+        <label for="employment">Employment Type:</label>
+        <select id="employment" name="EmploymentType">
+            <option value="Employed - full time">Full-time</option>
+            <option value="Employed - part time">Part-time</option>
+            <option value="Self employed">Self-employed</option>
+            <option value="Retired">Retired</option>
+        </select><br><br>
+
+        <label for="defaults">Count of Default Accounts:</label>
+        <input type="number" id="defaults" name="ALL_CountDefaultAccounts"><br><br>
+
+        <label for="mean_age">Mean Account Age:</label>
+        <input type="number" id="mean_age" name="ALL_MeanAccountAge" step="0.01"><br><br>
+
+        <label for="recent_default">Time Since Most Recent Default:</label>
+        <input type="number" id="recent_default" name="ALL_TimeSinceMostRecentDefault"><br><br>
+
+        <label for="worst_status">Worst Payment Status:</label>
+        <input type="number" id="worst_status" name="ALL_WorstPaymentStatusActiveAccounts"><br><br>
+
+        <button type="submit">Predict</button>
+    </form>
+</body>
+</html>

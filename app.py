@@ -1,16 +1,14 @@
-from flask import Flask, request, jsonify
-import joblib
+from flask import Flask, render_template, request, jsonify
 import pandas as pd
+import joblib
 
-# Load the optimised model
-model = joblib.load('optimised_loan_success_model.pkl')
-
-# Initialize Flask app
 app = Flask(__name__)
+
+model = joblib.load('optimised_loan_success_model.pkl')
 
 @app.route('/')
 def home():
-    return "Loan Success Prediction API is running!"
+    return render_template('form.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -18,12 +16,35 @@ def predict():
         # Parse input JSON
         input_data = request.get_json()
 
-        # Convert input into a DataFrame
-        input_df = pd.DataFrame([input_data])
+        # Default values for missing features
+        # Default values for missing features
+        defaults = {
+            "Amount": 5000,
+            "Term": 36,
+            "EmploymentType": "Employed - full time",  
+            "ALL_CountDefaultAccounts": 0,
+            "ALL_MeanAccountAge": 0.0,
+            "ALL_TimeSinceMostRecentDefault": 0,
+            "ALL_WorstPaymentStatusActiveAccounts": 0
+        }
+        # Validate numeric inputs
+        numeric_fields = ["Amount", "Term", "ALL_CountDefaultAccounts", "ALL_MeanAccountAge", "ALL_TimeSinceMostRecentDefault", "ALL_WorstPaymentStatusActiveAccounts"]
+        for field in numeric_fields:
+            if not isinstance(input_data[field], (int, float)):
+                return jsonify({'error': f"Invalid value for {field}. Must be a number."})
+                
+        # Merge user input with defaults
+        input_data = {**defaults, **input_data}
 
-        # Ensure features are in the correct order
+        # Preprocess 'EmploymentType' (convert to one-hot encoded features)
+        employment_types = ['Employed - full time', 'Employed - part time', 'Self employed', 'Retired']
+        for et in employment_types:
+            input_data[f"EmploymentType_{et}"] = 1 if input_data['EmploymentType'] == et else 0
+        del input_data['EmploymentType']  # Remove the original column
+
+        # Convert to DataFrame in the correct feature order
         expected_features = model.feature_names_in_
-        input_df = input_df[expected_features]
+        input_df = pd.DataFrame([input_data], columns=expected_features)
 
         # Make prediction
         prediction = model.predict(input_df)[0]
@@ -37,9 +58,8 @@ def predict():
         return jsonify(response)
 
     except KeyError as e:
-        return jsonify({'error': f"Missing feature: {str(e)}"})
+        return jsonify({'error': f"Missing feature: {str(e)}. Please include this in your input."})
+    except ValueError as e:
+        return jsonify({'error': f"Invalid input: {str(e)}"})
     except Exception as e:
-        return jsonify({'error': str(e)})
-
-if __name__ == '__main__':
-    app.run(debug=True)
+        return jsonify({'error': f"An unexpected error occurred: {str(e)}"})
