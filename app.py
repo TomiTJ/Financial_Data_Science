@@ -52,20 +52,15 @@ def predict():
         probability = model.predict_proba(input_df)[0][1]
 
         # Return the prediction as a response
-        return jsonify({
-            'prediction': int(prediction),
-            'success_probability': round(probability, 2)
-        })
+        return render_template(
+            'results.html',
+            prediction=int(prediction),
+            success_probability=round(probability, 2)
+        )
 
     except Exception as e:
-        return jsonify({'error': str(e)})
-
-    except KeyError as e:
-        return jsonify({'error': f"Missing feature: {str(e)}. Please include this in your input."})
-    except ValueError as e:
-        return jsonify({'error': f"Invalid input: {str(e)}"})
-    except Exception as e:
-        return jsonify({'error': f"An unexpected error occurred: {str(e)}"})
+        print(f"Error occurred: {e}")
+        return render_template('error.html', error=str(e))
 
 # Run the Flask app
 if __name__ == '__main__':
