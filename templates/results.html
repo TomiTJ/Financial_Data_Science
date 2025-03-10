@@ -1,12 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loan Prediction Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            font-size: 1.2em;
+            color: #555;
+        }
+        .success {
+            color: green;
+        }
+        .failure {
+            color: red;
+        }
+        a {
+            text-decoration: none;
+            color: blue;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Prediction Result</h1>
-    <p>Prediction: {{ prediction }}</p>
-    <p>Success Probability: {{ success_probability }}</p>
-    <a href="/">Back to Form</a>
+    <div class="container">
+        <h1>Loan Prediction Result</h1>
+        <p>
+            Your prediction result: 
+            <span class="{{ 'success' if prediction == 1 else 'failure' }}">
+                {{ 'Approved' if prediction == 1 else 'Rejected' }}
+            </span>
+        </p>
+        <p>Success Probability: <strong>{{ success_probability * 100 }}%</strong></p>
+        <a href="/">Back to Home</a>
+    </div>
 </body>
 </html>
