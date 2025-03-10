@@ -1,38 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Loan Prediction</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Prediction Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+        input, select, button {
+            font-size: 1rem;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input:focus, select:focus, button:focus {
+            border-color: #007BFF;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Loan Prediction Form</h1>
-    <form action="/predict" method="post">
-        <label for="amount">Loan Amount:</label>
-        <input type="number" id="amount" name="Amount" required><br><br>
+    <div class="container">
+        <h1>Loan Prediction Form</h1>
+        <form action="/predict" method="post">
+            <label for="amount">Loan Amount:</label>
+            <input type="number" id="amount" name="Amount" required>
 
-        <label for="term">Loan Term (Months):</label>
-        <input type="number" id="term" name="Term" required><br><br>
+            <label for="term">Loan Term (Months):</label>
+            <input type="number" id="term" name="Term" required>
 
-        <label for="employment">Employment Type:</label>
-        <select id="employment" name="EmploymentType">
-            <option value="Employed - full time">Full-time</option>
-            <option value="Employed - part time">Part-time</option>
-            <option value="Self employed">Self-employed</option>
-            <option value="Retired">Retired</option>
-        </select><br><br>
+            <label for="employment">Employment Type:</label>
+            <select id="employment" name="EmploymentType">
+                <option value="Employed - full time">Full-time</option>
+                <option value="Employed - part time">Part-time</option>
+                <option value="Self employed">Self-employed</option>
+                <option value="Retired">Retired</option>
+            </select>
 
-        <label for="defaults">Count of Default Accounts:</label>
-        <input type="number" id="defaults" name="ALL_CountDefaultAccounts"><br><br>
+            <label for="defaults">Count of Default Accounts:</label>
+            <input type="number" id="defaults" name="ALL_CountDefaultAccounts">
 
-        <label for="mean_age">Mean Account Age:</label>
-        <input type="number" id="mean_age" name="ALL_MeanAccountAge" step="0.01"><br><br>
+            <label for="mean_age">Mean Account Age:</label>
+            <input type="number" id="mean_age" name="ALL_MeanAccountAge" step="0.01">
 
-        <label for="recent_default">Time Since Most Recent Default:</label>
-        <input type="number" id="recent_default" name="ALL_TimeSinceMostRecentDefault"><br><br>
+            <label for="recent_default">Time Since Most Recent Default:</label>
+            <input type="number" id="recent_default" name="ALL_TimeSinceMostRecentDefault">
 
-        <label for="worst_status">Worst Payment Status:</label>
-        <input type="number" id="worst_status" name="ALL_WorstPaymentStatusActiveAccounts"><br><br>
+            <label for="worst_status">Worst Payment Status:</label>
+            <input type="number" id="worst_status" name="ALL_WorstPaymentStatusActiveAccounts">
 
-        <button type="submit">Predict</button>
-    </form>
+            <button type="submit">Predict</button>
+        </form>
+    </div>
 </body>
 </html>
