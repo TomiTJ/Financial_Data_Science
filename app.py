@@ -3,14 +3,13 @@ import pandas as pd
 import joblib
 from flask_cors import CORS
 
-# Initialize Flask app
 app = Flask(__name__)
 
 # Enable CORS for cross-origin requests
 CORS(app)
 
 # Load the trained model
-model = joblib.load('optimised_loan_success_model.pkl')
+model = joblib.load('optimized_model.pkl')
 
 # Default endpoint for home
 @app.route('/')
